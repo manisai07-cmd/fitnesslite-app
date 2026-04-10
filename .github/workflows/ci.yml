@@ -1,0 +1,48 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the repository code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. Set up Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # 3. Install Server Dependencies
+      - name: Install Server Dependencies
+        working-directory: ./server
+        run: npm install
+
+      # 4. Install Client Dependencies
+      - name: Install Client Dependencies
+        working-directory: ./client
+        run: npm install
+
+      # 5. Lint Client Code
+      - name: Lint Client
+        working-directory: ./client
+        run: npm run lint
+
+      # 6. Build Client
+      - name: Build Client
+        working-directory: ./client
+        run: npm run build
+
+      # Note: If you have tests (e.g., npm test), you can add another step here:
+      # - name: Run Tests
+      #   run: npm test
