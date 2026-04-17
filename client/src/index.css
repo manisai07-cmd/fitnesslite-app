@@ -669,3 +669,377 @@ select.form-control option {
 .page-container {
   animation: fadeIn 0.35s ease forwards;
 }
+
+/* ========== CALORIE CALCULATOR COMPONENT ========== */
+
+/* Wrapper */
+.cc-wrapper {
+  margin-bottom: 0;
+}
+
+/* Header */
+.cc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.cc-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.cc-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 0 8px rgba(0, 200, 83, 0.4));
+}
+
+.cc-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  margin-bottom: 0.1rem;
+}
+
+.cc-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Input section */
+.cc-input-section {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.cc-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cc-input-icon {
+  position: absolute;
+  left: 1rem;
+  font-size: 1rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cc-input {
+  padding-left: 2.75rem !important;
+  padding-right: 2.5rem !important;
+  font-size: 0.95rem;
+  height: 52px;
+  border-radius: var(--radius-md) !important;
+  transition: all var(--transition-base) !important;
+}
+
+.cc-input:focus {
+  box-shadow: 0 0 0 3px var(--accent-green-dim), 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.cc-clear-btn {
+  position: absolute;
+  right: 0.85rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: color var(--transition-fast), background var(--transition-fast);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+}
+
+.cc-clear-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-glass-hover);
+}
+
+/* Hint text */
+.cc-hint {
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.cc-hint strong { color: var(--accent-green); }
+.cc-hint em     { color: var(--text-secondary); font-style: normal; }
+
+/* Autocomplete dropdown */
+.cc-suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  list-style: none;
+  z-index: 200;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.15s ease forwards;
+}
+
+.cc-suggest-item {
+  padding: 0.65rem 1rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.cc-suggest-item:last-child { border-bottom: none; }
+
+.cc-suggest-item:hover {
+  background: var(--bg-glass-hover);
+  color: var(--text-primary);
+  padding-left: 1.25rem;
+}
+
+.cc-suggest-loading {
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Calculate button */
+.cc-calc-btn {
+  width: 100%;
+  height: 48px;
+  font-size: 1rem;
+  border-radius: var(--radius-md) !important;
+  letter-spacing: 0.2px;
+  margin-bottom: 1rem;
+}
+
+/* Inline spinner inside button */
+.cc-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  border-top-color: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 0.5rem;
+}
+
+/* Error */
+.cc-error {
+  margin-bottom: 1rem;
+}
+
+/* Results section */
+.cc-results-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* Individual result card */
+.cc-result-card {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.25rem;
+  transition: all var(--transition-base);
+}
+
+.cc-result-card:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: var(--bg-glass-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cc-result-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.cc-result-name {
+  font-size: 0.975rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.2rem;
+}
+
+.cc-result-brand {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.cc-result-calories {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.cc-cal-value {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--accent-green);
+  line-height: 1;
+}
+
+.cc-cal-unit {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Nutrient badges row */
+.cc-nutrient-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+}
+
+.nutrient-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.75rem;
+  transition: border-color var(--transition-fast);
+  flex: 1;
+  min-width: 80px;
+}
+
+.nutrient-badge:hover {
+  border-color: var(--badge-color, var(--accent-green));
+}
+
+.nutrient-badge-emoji {
+  font-size: 1rem;
+}
+
+.nutrient-badge-value {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--badge-color, var(--text-primary));
+}
+
+.nutrient-badge-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--text-muted);
+}
+
+/* "Use this result" button */
+.cc-use-btn {
+  padding: 0.45rem 1rem !important;
+  font-size: 0.8rem !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+/* Not found notice */
+.cc-not-found {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  background: var(--accent-orange-dim);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: var(--accent-orange);
+}
+
+/* Total calories banner */
+.cc-total-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.5rem;
+  background: var(--accent-green-dim);
+  border: 1px solid rgba(0, 200, 83, 0.25);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 24px rgba(0, 200, 83, 0.08);
+}
+
+.cc-total-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--accent-green);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cc-total-value {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--accent-green);
+  line-height: 1;
+}
+
+.cc-total-unit {
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+/* Section divider label above manual form */
+.cc-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+/* ── CalorieCalculator – Responsive ───────────── */
+@media (max-width: 480px) {
+  .cc-nutrient-row {
+    flex-direction: column;
+  }
+
+  .cc-total-value {
+    font-size: 1.5rem;
+  }
+
+  .cc-result-header {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .cc-result-calories {
+    text-align: left;
+  }
+}

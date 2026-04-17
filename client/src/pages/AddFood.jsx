@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api/axios';
+import CalorieCalculator from '../components/CalorieCalculator';
 
 const AddFood = () => {
   const [formData, setFormData] = useState({
@@ -8,13 +9,27 @@ const AddFood = () => {
     calories: '',
     mealType: 'breakfast',
   });
-  const [error, setError] = useState('');
+  const [error,   setError]   = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  /**
+   * Called by CalorieCalculator when user clicks "Use this result".
+   * Pre-fills the manual entry form so they can log it with one click.
+   */
+  const handleUseResult = (result) => {
+    setFormData((prev) => ({
+      ...prev,
+      foodName: result.displayName,
+      calories: result.calories !== null ? String(Math.round(result.calories)) : '',
+    }));
+    // Scroll down to the form smoothly
+    document.getElementById('manual-entry-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const handleSubmit = async (e) => {
@@ -33,7 +48,6 @@ const AddFood = () => {
       setSuccess(`"${formData.foodName}" added successfully!`);
       setFormData({ foodName: '', calories: '', mealType: formData.mealType });
 
-      // Redirect after a short delay so the user sees the success message
       setTimeout(() => navigate('/'), 1200);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to add food entry.');
@@ -46,11 +60,19 @@ const AddFood = () => {
     <div className="page-container">
       <div className="page-header">
         <h1>Add Food Entry</h1>
-        <p>Log what you've eaten</p>
+        <p>Search for nutrition info, then log to your daily tracker</p>
       </div>
 
-      <div className="add-food-card glass-card">
-        {error && <div className="alert">{error}</div>}
+      {/* ── Calorie Calculator ─────────────────────────────────────────── */}
+      <CalorieCalculator onUseResult={handleUseResult} />
+
+      {/* ── Manual Entry Form ──────────────────────────────────────────── */}
+      <div id="manual-entry-form" className="add-food-card glass-card" style={{ marginTop: '2rem' }}>
+        <div className="cc-section-divider">
+          <span>📋 Log Food Entry</span>
+        </div>
+
+        {error   && <div className="alert">{error}</div>}
         {success && <div className="alert alert-success">{success}</div>}
 
         <form onSubmit={handleSubmit}>
