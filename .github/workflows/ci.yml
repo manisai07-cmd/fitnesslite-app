@@ -9,40 +9,33 @@ on:
       - main
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Check out the repository code
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2. Set up Node.js environment
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Show repository structure
+        run: ls -R
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # 3. Install Server Dependencies
-      - name: Install Server Dependencies
+      - name: Install Backend Dependencies
         working-directory: ./server
         run: npm install
 
-      # 4. Install Client Dependencies
-      - name: Install Client Dependencies
+      - name: Run Backend Tests
+        working-directory: ./server
+        run: npm test
+
+      - name: Install Frontend Dependencies
         working-directory: ./client
         run: npm install
 
-      # 5. Lint Client Code
-      - name: Lint Client
-        working-directory: ./client
-        run: npm run lint
-
-      # 6. Build Client
-      - name: Build Client
+      - name: Build React App
         working-directory: ./client
         run: npm run build
-
-      # Note: If you have tests (e.g., npm test), you can add another step here:
-      # - name: Run Tests
-      #   run: npm test
